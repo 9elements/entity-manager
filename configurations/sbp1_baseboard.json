@@ -411,6 +411,10 @@
             "Type": "ADM1021"
         },
         {
+            "Name": "Baseboard Upstream Port",
+            "Type": "Baseboard Upstream Port"
+        },
+        {
             "Address": "0x40",
             "Bus": "58",
             "Labels": [

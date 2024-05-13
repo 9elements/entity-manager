@@ -2,6 +2,12 @@
     {
         "Exposes": [
             {
+                "ConnectsToType": "Baseboard Upstream Port",
+                "Name": "PSU 1 Downstream Port",
+                "PowerPort": true,
+                "Type": "DownstreamPort"
+            },
+            {
                 "Address": "0x5f",
                 "Bus": "36",
                 "Labels": [
@@ -135,6 +141,12 @@
     },
     {
         "Exposes": [
+            {
+                "ConnectsToType": "Baseboard Upstream Port",
+                "Name": "PSU 2 Downstream Port",
+                "PowerPort": true,
+                "Type": "DownstreamPort"
+            },
             {
                 "Address": "0x5f",
                 "Bus": "37",
@@ -270,6 +282,12 @@
     {
         "Exposes": [
             {
+                "ConnectsToType": "Baseboard Upstream Port",
+                "Name": "PSU 3 Downstream Port",
+                "PowerPort": true,
+                "Type": "DownstreamPort"
+            },
+            {
                 "Address": "0x5f",
                 "Bus": "38",
                 "Labels": [
@@ -403,6 +421,12 @@
     },
     {
         "Exposes": [
+            {
+                "ConnectsToType": "Baseboard Upstream Port",
+                "Name": "PSU 4 Downstream Port",
+                "PowerPort": true,
+                "Type": "DownstreamPort"
+            },
             {
                 "Address": "0x5f",
                 "Bus": "39",

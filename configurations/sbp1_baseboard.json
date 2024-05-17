@@ -422,7 +422,7 @@
             ],
             "Name": "P1V8_PCH_AUX",
             "PollRate": 5.0,
-            "PowerState": "On",
+            "PowerState": "Always",
             "Thresholds": [
                 {
                     "Direction": "greater than",
@@ -1262,7 +1262,7 @@
             ],
             "Name": "P1V05_PCH_AUX",
             "PollRate": 5.0,
-            "PowerState": "On",
+            "PowerState": "Always",
             "Thresholds": [
                 {
                     "Direction": "greater than",

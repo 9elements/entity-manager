@@ -77,6 +77,8 @@ const static constexpr char* baseboardFruLocation =
     "/etc/fru/baseboard.fru.bin";
 
 const static constexpr char* i2CDevLocation = "/dev";
+const static constexpr char* backupsLocation =
+    "/var/lib/entity-manager/backups/";
 
 // TODO Refactor these to not be globals
 // NOLINTBEGIN(cppcoreguidelines-avoid-non-const-global-variables)
@@ -127,15 +129,71 @@ static std::string getEepromPath(size_t bus, size_t address)
 
 static bool hasEepromFile(size_t bus, size_t address)
 {
-    auto path = getEepromPath(bus, address);
+    std::string path = getEepromPath(bus, address);
+
+    std::error_code ec;
+    return fs::exists(path, ec);
+}
+
+static std::string getBackupPath(size_t bus, size_t address)
+{
+    return backupsLocation + std::to_string(bus) + "-" +
+           std::to_string(address) + ".bin";
+}
+
+static bool hasBackupFile(size_t bus, size_t address)
+{
+    std::string backupPath = getBackupPath(bus, address);
+
+    std::error_code ec;
+    return fs::exists(backupPath, ec);
+}
+
+static bool createBackupFile(size_t bus, size_t address)
+{
+    std::string eepromPath = getEepromPath(bus, address);
+    std::string backupPath = getBackupPath(bus, address);
+
+    lg2::info("backing up FRU eeprom: copying {FROM} to {TO}", "FROM",
+              eepromPath, "TO", backupPath);
+
     try
     {
-        return fs::exists(path);
+        fs::copy(eepromPath, backupPath);
+        return true;
     }
     catch (...)
     {
+        lg2::error("creating backup failed!");
         return false;
     }
+}
+
+static bool restoreFromBackup(size_t bus, size_t address)
+{
+    std::string eepromPath = getEepromPath(bus, address);
+    std::string backupPath = getBackupPath(bus, address);
+
+    lg2::info("restoring FRU eeprom: copying {FROM} to {TO}", "FROM",
+              backupPath, "TO", eepromPath);
+
+    if (hasBackupFile(bus, address))
+    {
+        try
+        {
+            fs::copy(backupPath, eepromPath,
+                     fs::copy_options::overwrite_existing);
+            return true;
+        }
+        catch (...)
+        {
+            lg2::error("resetting fru failed!");
+            return false;
+        }
+    }
+
+    lg2::error("no backup found!");
+    return false;
 }
 
 static int64_t readFromEeprom(int fd, off_t offset, size_t len, uint8_t* buf)
@@ -213,6 +271,12 @@ static void makeProbeInterface(size_t bus, size_t address,
     }
     it->second->register_property("Bus", bus);
     it->second->register_property("Address", address);
+    it->second->register_method("BackupFru", [bus, address]() {
+        createBackupFile(bus, address);
+    });
+    it->second->register_method("RestoreFruFromBackup", [bus, address]() {
+        restoreFromBackup(bus, address);
+    });
     it->second->initialize();
 }
 
@@ -981,7 +1045,7 @@ bool writeFRU(uint8_t bus, uint8_t address, const std::vector<uint8_t>& fru)
 
     if (hasEepromFile(bus, address))
     {
-        auto path = getEepromPath(bus, address);
+        std::string path = getEepromPath(bus, address);
         int eeprom = open(path.c_str(), O_RDWR | O_CLOEXEC);
         if (eeprom < 0)
         {
@@ -1238,6 +1302,19 @@ bool updateFRUProperty(
     sdbusplus::asio::object_server& objServer,
     std::shared_ptr<sdbusplus::asio::connection>& systemBus)
 {
+    // create a backup of the original eeprom file, before altering any property
+    // if (!hasBackupFile(bus, address))
+    // {
+    //     lg2::info("Creating backup of FRU data for bus {BUS}, address
+    //     {ADDR}",
+    //               "BUS", bus, "ADDR", address);
+    //     if (!createBackupFile(bus, address))
+    //     {
+    //         lg2::error("Failure creating backup of FRU data, aborting..");
+    //         return false;
+    //     }
+    // }
+
     size_t updatePropertyReqLen = updatePropertyReq.length();
     if (updatePropertyReqLen == 1 || updatePropertyReqLen > 63)
     {

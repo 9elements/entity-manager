@@ -28,6 +28,9 @@ if get_option('fru-device')
     if get_option('fru-device-resizefru')
         cpp_args_fd = cpp_args_fd + ['-DENABLE_FRU_AREA_RESIZE']
     endif
+    if get_option('fru-update-property')
+        cpp_args_fd = cpp_args_fd + ['-DENABLE_FRU_UPDATE_PROPERTY']
+    endif
     executable(
         'fru-device',
         'expression.cpp',

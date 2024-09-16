@@ -68,6 +68,7 @@ else
 endif
 
 install_data('blacklist.json')
+install_data('fru_update_policy.json')
 
 configs = [
     '1ux16_riser.json',
@@ -281,6 +282,7 @@ schemas = [
     'stepwise.json',
     'virtual_sensor.json',
     'satellite_controller.json',
+    'fru_update_policy.json'
 ]
 
 foreach s : schemas

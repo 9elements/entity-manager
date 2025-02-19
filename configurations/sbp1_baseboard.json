@@ -422,8 +422,8 @@
             "Labels": [
                 "temp2"
             ],
-            "Name": "NIC2_0",
-            "Name1": "NIC2 Temperature",
+            "Name": "NIC2",
+            "temp2_Name": "NIC2 Temperature",
             "PowerState": "On",
             "Thresholds": [
                 {
@@ -467,8 +467,8 @@
             "Labels": [
                 "temp2"
             ],
-            "Name": "NIC1_0",
-            "Name1": "NIC1 Temperature",
+            "Name": "NIC2",
+            "temp2_Name": "NIC2 Temperature",
             "PowerState": "On",
             "Thresholds": [
                 {

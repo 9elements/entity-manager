@@ -425,6 +425,40 @@
             "Name": "NIC2_0",
             "Name1": "NIC2",
             "PowerState": "On",
+            "Thresholds": [
+                {
+                    "Direction": "greater than",
+                    "Hysteresis": 9.5,
+                    "Label": "temp2",
+                    "Name": "upper critical",
+                    "Severity": 1,
+                    "Value": 95
+                },
+                {
+                    "Direction": "greater than",
+                    "Hysteresis": 9.5,
+                    "Label": "temp2",
+                    "Name": "upper non critical",
+                    "Severity": 0,
+                    "Value": 85
+                },
+                {
+                    "Direction": "less than",
+                    "Hysteresis": 9.5,
+                    "Label": "temp2",
+                    "Name": "lower non critical",
+                    "Severity": 0,
+                    "Value": 30
+                },
+                {
+                    "Direction": "less than",
+                    "Hysteresis": 9.5,
+                    "Label": "temp2",
+                    "Name": "lower critical",
+                    "Severity": 1,
+                    "Value": 20
+                }
+            ],
             "Type": "ADM1021"
         },
         {
@@ -436,6 +470,40 @@
             "Name": "NIC1_0",
             "Name1": "NIC1",
             "PowerState": "On",
+            "Thresholds": [
+                {
+                    "Direction": "greater than",
+                    "Hysteresis": 9.5,
+                    "Label": "temp2",
+                    "Name": "upper critical",
+                    "Severity": 1,
+                    "Value": 95
+                },
+                {
+                    "Direction": "greater than",
+                    "Hysteresis": 9.5,
+                    "Label": "temp2",
+                    "Name": "upper non critical",
+                    "Severity": 0,
+                    "Value": 85
+                },
+                {
+                    "Direction": "less than",
+                    "Hysteresis": 9.5,
+                    "Label": "temp2",
+                    "Name": "lower non critical",
+                    "Severity": 0,
+                    "Value": 30
+                },
+                {
+                    "Direction": "less than",
+                    "Hysteresis": 9.5,
+                    "Label": "temp2",
+                    "Name": "lower critical",
+                    "Severity": 1,
+                    "Value": 20
+                }
+            ],
             "Type": "ADM1021"
         },
         {

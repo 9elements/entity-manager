@@ -459,7 +459,7 @@
                     "Value": 30
                 }
             ],
-            "Type": "ADM1021"
+            "Type": "LM90"
         },
         {
             "Address": "0x1f",
@@ -504,7 +504,7 @@
                     "Value": 30
                 }
             ],
-            "Type": "ADM1021"
+            "Type": "LM90"
         },
         {
             "Address": "0x40",

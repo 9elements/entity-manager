@@ -5,6 +5,9 @@
             "description": "The exposes property element schema.  An element of the exposes property is always an array where elements are of type exposes entry.",
             "anyOf": [
                 {
+                    "$ref": "eeprom.json#/$defs/Eeprom"
+                },
+                {
                     "$ref": "ibm.json#/$defs/PowerModeProperties"
                 },
                 {

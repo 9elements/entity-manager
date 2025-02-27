@@ -31,6 +31,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
+#include <sdbusplus/asio/property.hpp>
 
 #include <array>
 #include <cerrno>
@@ -195,6 +196,8 @@ static void manageBackup(size_t currentFruHash, size_t newFruHash)
 {
     fs::path p = getBackupPath(currentFruHash);
 
+    // TODO  02/26/25-18:23 olek: remove symlinking and instead clear the backup
+    // after restore
     if (fs::is_symlink(p))
     {
         fs::path outdated{getBackupPath(currentFruHash)};
@@ -1110,6 +1113,26 @@ void addFruObjectToDbus(
                              unknownBusObjectCount, powerIsOn,
                              updatableFruProperties, objServer, systemBus);
             });
+
+        iface->register_method("GetUpdatableProperties", [&systemBus]() {
+            sdbusplus::asio::getProperty<std::vector<std::string>>(
+                *systemBus, "xyz.openbmc_project.EntityManager",
+                "/xyz/openbmc_project/inventory/system/BMC_Storage_Module/BMC_Storage_Module_FRU",
+                "xyz.openbmc_project.Configuration.EEPROM",
+                "UpdatableProperties",
+                [](const boost::system::error_code ec,
+                   const std::vector<std::string>& props) {
+                    if (ec)
+                    {
+                        throw DBusInternalError();
+                    }
+
+                    for (const auto& p : props)
+                    {
+                        lg2::info("{PROP}", "PROP", p);
+                    }
+                });
+        });
     }
 
     iface->initialize();

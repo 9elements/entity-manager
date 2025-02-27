@@ -1,0 +1,35 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$defs": {
+        "Eeprom": {
+            "title": "Eeprom configuration",
+            "description": "The configuration used by fru-device to read out updatable properties for an eeprom",
+            "type": "object",
+            "properties": {
+                "Bus": {
+                    "description": "Bus number of the eeprom",
+                    "$ref": "legacy.json#/$defs/Types/Bus"
+                },
+                "Address": {
+                    "description": "Address number of the eeprom",
+                    "$ref": "legacy.json#/$defs/Types/Bus"
+                },
+                "UpdatableProperties": {
+                    "description": "List of updatable properties for the eeprom",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "Name": {
+                    "type": "string"
+                },
+                "Type": {
+                    "description": "Type 'EEPROM'",
+                    "const": "EEPROM"
+                }
+            },
+            "required": ["Name", "Type"]
+        }
+    }
+}
